@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GenBridge - Micro-Investments & Generational Mentorship Platform</title>
+  <link rel="icon" type="image/jpeg" href="/assets/GenBridge.jpg">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#fff7ed',
+              100: '#ffedd5',
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+              800: '#9a3412',
+              900: '#7c2d12',
+            },
+            surface: {
+              body: '#f8fafc',
+              card: '#ffffff',
+              muted: '#f1f5f9',
+              border: '#e2e8f0',
+              input: '#f8fafc',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#f8fafc] text-gray-800 min-h-screen flex flex-col font-sans antialiased selection:bg-orange-200 selection:text-orange-900 relative">
+
+  <!-- ======================================================== -->
+  <!-- MATRIX DIGITAL RAIN CANVAS BACKGROUND -->
+  <!-- ======================================================== -->
+  <div id="matrixContainer" class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <canvas id="matrixCanvas" class="w-full h-full block opacity-10 transition-opacity duration-500"></canvas>
+    <div class="absolute inset-0 bg-gradient-to-b from-white/70 via-transparent to-white/80"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-10%,rgba(249,115,22,0.08),rgba(248,250,252,0))]"></div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- TOP ANNOUNCEMENT & LIVE STREAM TICKER -->
+  <!-- ======================================================== -->
+  <div class="relative z-50 bg-gradient-to-r from-orange-50 via-white to-blue-50 border-b border-orange-200/60 px-4 py-1.5 text-xs text-gray-600 overflow-hidden flex items-center shadow-sm">
+    <div class="flex items-center gap-2 whitespace-nowrap pr-4 font-bold uppercase tracking-wider text-[11px] text-orange-600 border-r border-orange-200/60">
+      <span class="w-2 h-2 rounded-full bg-orange-500 animate-ping"></span>
+      <span>Live Feed</span>
+    </div>
+
+    <!-- Scrolling Ticker Track -->
+    <div class="overflow-hidden flex-1 relative">
+      <div class="ticker-track text-[11px] font-medium text-gray-500">
+        <span class="mx-4 flex items-center gap-1.5"><strong class="text-orange-600">⚡ PLEDGED:</strong> Robert M. invested $500 in NextGen Studio (Sony FX3 Rig)</span>
+        <span class="mx-4 text-gray-300">•</span>
+        <span class="mx-4 flex items-center gap-1.5"><strong class="text-blue-600">🌿 MILESTONE:</strong> BioChai reached 76% funding goal for mold casting</span>
+        <span class="mx-4 text-gray-300">•</span>
+        <span class="mx-4 flex items-center gap-1.5"><strong class="text-indigo-600">📸 VERIFIED:</strong> Alex Rivera submitted acoustic treatment lab proof</span>
+        <span class="mx-4 text-gray-300">•</span>
+        <span class="mx-4 flex items-center gap-1.5"><strong class="text-orange-500">🛡️ GOVERNANCE:</strong> 0% gas fee micro-investment routing online</span>
+        <span class="mx-4 text-gray-300">•</span>
+        <span class="mx-4 flex items-center gap-1.5"><strong class="text-blue-500">💡 STARTUP:</strong> CareNest voice companion locked founding batch #001</span>
+        <span class="mx-4 text-gray-300">•</span>
+        <!-- Repeated for seamless loop -->
+        <span class="mx-4 flex items-center gap-1.5"><strong class="text-orange-600">⚡ PLEDGED:</strong> Robert M. invested $500 in NextGen Studio (Sony FX3 Rig)</span>
+        <span class="mx-4 text-gray-300">•</span>
+        <span class="mx-4 flex items-center gap-1.5"><strong class="text-blue-600">🌿 MILESTONE:</strong> BioChai reached 76% funding goal for mold casting</span>
+      </div>
+    </div>
+
+    <!-- Announcement Alert (Managed by Admin) -->
+    <div id="announcementText" class="hidden lg:flex items-center gap-1.5 pl-4 border-l border-orange-200/60 text-[11px] text-orange-700 font-semibold truncate max-w-sm">
+      <i data-lucide="sparkles" class="w-3.5 h-3.5 text-orange-500 shrink-0"></i>
+      <span class="truncate">🚀 Welcome to GenBridge: Micro-investments with mentor wisdom</span>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- NAVIGATION HEADER -->
+  <!-- ======================================================== -->
+  <header class="sticky top-0 z-40 glass-nav border-b border-gray-200/60 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-3 sm:gap-6">
+      
+      <!-- Brand Logo & Title -->
+      <a href="#/home" class="flex items-center gap-3.5 group shrink-0">
+        <div class="glow-logo-wrapper shadow-lg shadow-orange-500/15 group-hover:scale-105 transition-transform duration-300">
+          <div class="w-12 h-12 rounded-[0.9rem] overflow-hidden bg-white p-0.5">
+            <img src="/assets/GenBridge.jpg" alt="GenBridge Logo" class="w-full h-full object-cover rounded-[0.75rem]" onerror="this.src='/GenBridge.jpg'">
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-gray-900 via-orange-600 to-blue-600 bg-clip-text text-transparent glitch-text">
+              GenBridge
+            </span>
+            <span class="hidden sm:inline-block text-[9px] uppercase tracking-widest bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-bold border border-orange-200 shadow-sm">
+              On-Demand
+            </span>
+          </div>
+          <p class="text-[11px] text-gray-400 tracking-wide hidden sm:block">
+            B.Tech Innovation • IIIT Bhopal
+          </p>
+        </div>
+      </a>
+
+      <!-- Center Search Bar -->
+      <div class="hidden md:flex flex-1 max-w-sm mx-2">
+        <div class="relative w-full group">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-orange-500 transition-colors"></i>
+          <input 
+            type="text" 
+            id="globalSearchInput" 
+            placeholder="Search campaigns, YouTube gear, tech startups..." 
+            class="w-full bg-gray-50 border border-gray-200 rounded-2xl pl-10 pr-12 py-2 text-xs text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-300 transition-all shadow-inner"
+          >
+          <kbd class="hidden xl:inline-block absolute right-3 top-1/2 -translate-y-1/2 px-1.5 py-0.5 text-[10px] font-mono text-gray-400 bg-white rounded border border-gray-200">
+            /
+          </kbd>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs & Right Actions -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        
+        <!-- Navigation Links -->
+        <nav class="hidden lg:flex items-center gap-1 text-xs">
+          <button onclick="router.navigate('home')" class="nav-tab px-3.5 py-2 rounded-xl text-gray-500 hover:text-gray-900 transition font-semibold flex items-center gap-1.5 border border-transparent" data-route="home">
+            <i data-lucide="home" class="w-4 h-4 text-orange-500"></i> Home
+          </button>
+          <button onclick="router.navigate('discover')" class="nav-tab px-3.5 py-2 rounded-xl text-gray-500 hover:text-gray-900 transition font-semibold flex items-center gap-1.5 border border-transparent" data-route="discover">
+            <i data-lucide="compass" class="w-4 h-4 text-blue-500"></i> Discover
+          </button>
+          <button id="myDeliveriesTab" onclick="router.navigate('deliveries')" class="nav-tab px-3.5 py-2 rounded-xl text-gray-500 hover:text-gray-900 transition font-semibold flex items-center gap-1.5 border border-transparent" data-route="deliveries">
+            <i data-lucide="truck" class="w-4 h-4 text-blue-500"></i> Deliveries
+          </button>
+          <button id="promoterTab" onclick="router.navigate('promoter')" class="nav-tab px-3.5 py-2 rounded-xl text-gray-500 hover:text-gray-900 transition font-semibold flex items-center gap-1.5 border border-transparent" data-route="promoter">
+            <i data-lucide="video" class="w-4 h-4 text-indigo-500"></i> Creator Studio
+          </button>
+          <button id="adminTab" onclick="router.navigate('admin')" class="nav-tab px-3.5 py-2 rounded-xl text-orange-700 hover:bg-orange-50 transition font-semibold flex items-center gap-1.5 border border-orange-200" data-route="admin">
+            <i data-lucide="shield-check" class="w-4 h-4 text-orange-600"></i> Admin
+          </button>
+        </nav>
+
+        <!-- Matrix Rain Toggle Pill -->
+        <button id="matrixToggleBtn" onclick="if(window.matrixEffect) window.matrixEffect.cycleOpacity()" title="Cycle Matrix Rain Intensity or Toggle" class="flex items-center gap-1.5 text-[11px] bg-white hover:bg-gray-50 border border-gray-200 text-gray-500 px-2.5 py-1.5 rounded-xl transition shadow-sm">
+          <i data-lucide="binary" class="w-3.5 h-3.5 text-orange-500"></i>
+          <span class="hidden sm:inline">Matrix</span>
+        </button>
+
+        <!-- 1-Click Fast Persona Switcher Pills -->
+        <div class="hidden sm:flex items-center gap-1 bg-gray-50 p-1 rounded-xl border border-gray-200">
+          <button onclick="auth.fastLogin('admin@genbridge.org', 'admin123')" title="Switch to Admin (Superuser)" class="px-2.5 py-1 rounded-lg text-[10px] font-bold text-orange-700 hover:bg-orange-50 transition flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span> Admin
+          </button>
+          <button onclick="auth.fastLogin('alex@creator.com', 'promoter123')" title="Switch to Promoter (Alex Rivera)" class="px-2.5 py-1 rounded-lg text-[10px] font-bold text-indigo-600 hover:bg-indigo-50 transition flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> Promoter
+          </button>
+          <button onclick="auth.fastLogin('robert@investor.com', 'user123')" title="Switch to Investor (Robert M.)" class="px-2.5 py-1 rounded-lg text-[10px] font-bold text-blue-600 hover:bg-blue-50 transition flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Investor
+          </button>
+        </div>
+
+        <!-- Auth Actions / Profile / Wallet -->
+        <div id="authActions" class="flex items-center gap-2">
+          <!-- Injected by app.js based on auth state -->
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================================================== -->
+  <!-- MAIN APP CONTAINER -->
+  <!-- ======================================================== -->
+  <main class="relative z-10 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- ======================================================== -->
+    <!-- VIEW 1: HOME PAGE -->
+    <!-- ======================================================== -->
+    <section id="viewHome" class="view-panel space-y-16">
+      
+      <!-- HERO SECTION -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-white via-orange-50/50 to-blue-50/50 border border-orange-200/50 p-6 md:p-12 shadow-xl neon-border">
+        <div class="absolute -right-16 -bottom-16 w-96 h-96 bg-orange-200/30 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute left-1/3 -top-16 w-80 h-80 bg-blue-200/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-4xl space-y-6">
+          
+          <!-- Badge -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-100 border border-orange-200 text-orange-700 text-xs font-bold tracking-wide shadow-sm">
+            <i data-lucide="graduation-cap" class="w-4 h-4 text-orange-600"></i>
+            <span>Student Innovation • IIIT Bhopal Undergrads</span>
+          </div>
+
+          <!-- Headline -->
+          <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-gray-900 leading-[1.1]">
+            Deliver Capital & Wisdom to <br>
+            <span class="bg-gradient-to-r from-orange-500 via-orange-400 to-blue-500 bg-clip-text text-transparent">
+              Small Ideas & Creators On-Demand.
+            </span>
+          </h1>
+
+          <!-- Subtitle -->
+          <p class="text-gray-600 text-base sm:text-lg leading-relaxed max-w-3xl">
+            Like Uber and Zomato deliver meals, <strong>GenBridge delivers micro-investments to emerging creators and startup founders</strong>. We bridge the generational gap by connecting experienced professionals with capital and domain wisdom to Gen-Z builders hungry for starter funds.
+          </p>
+
+          <!-- CTAs -->
+          <div class="flex flex-wrap items-center gap-4 pt-2">
+            <button onclick="router.navigate('discover')" class="px-7 py-3.5 rounded-2xl bg-orange-500 hover:bg-orange-600 text-white font-extrabold text-sm shadow-xl shadow-orange-500/25 transition-all flex items-center gap-2 hover:scale-[1.02]">
+              <i data-lucide="compass" class="w-4 h-4"></i>
+              <span>Explore Discover Directory</span>
+            </button>
+            <button onclick="auth.requirePromoter(() => router.navigate('promoter'))" class="px-7 py-3.5 rounded-2xl bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 font-extrabold text-sm transition-all flex items-center gap-2 hover:border-indigo-300">
+              <i data-lucide="video" class="w-4 h-4 text-indigo-500"></i>
+              <span>Pitch Your Campaign</span>
+            </button>
+            <a href="#sectionWorking" class="px-4 py-3 text-xs font-semibold text-gray-400 hover:text-gray-700 flex items-center gap-1 transition">
+              <span>How it works</span>
+              <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+            </a>
+          </div>
+
+          <!-- Trust & Volume Stats -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8 border-t border-gray-200/80">
+            <div class="p-4 rounded-2xl bg-white border border-gray-100 shadow-sm">
+              <div class="text-3xl font-black text-gray-900" id="homeStatVolume">$0</div>
+              <div class="text-xs text-gray-400 mt-1">Capital Delivered</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-white border border-gray-100 shadow-sm">
+              <div class="text-3xl font-black text-orange-500" id="homeStatCampaigns">0</div>
+              <div class="text-xs text-gray-400 mt-1">Total Campaigns</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-white border border-gray-100 shadow-sm">
+              <div class="text-3xl font-black text-blue-500" id="homeStatInvestments">0</div>
+              <div class="text-xs text-gray-400 mt-1">Micro-Orders Placed</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-white border border-gray-100 shadow-sm">
+              <div class="text-3xl font-black text-indigo-500" id="homeStatBackers">0</div>
+              <div class="text-xs text-gray-400 mt-1">Cross-Gen Backers</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SECTION 2: VIEWPOINT OF THE PROJECT -->
+      <div class="space-y-6">
+        <div class="text-center max-w-2xl mx-auto space-y-2">
+          <span class="text-xs font-bold uppercase tracking-widest text-orange-500">Project Viewpoint</span>
+          <h2 class="text-3xl font-black text-gray-900">Bridging the Generational Capital Gap</h2>
+          <p class="text-sm text-gray-500">Traditional venture funds and banks ignore small ideas. We connect the two sides of the generational bridge.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <!-- Card 1: The Youth Dilemma -->
+          <div class="glass-panel p-6 rounded-3xl border border-gray-100 space-y-4 hover-lift">
+            <div class="w-12 h-12 rounded-2xl bg-red-50 border border-red-200 flex items-center justify-center text-red-500">
+              <i data-lucide="alert-circle" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900">1. The Youth Dilemma</h3>
+            <p class="text-xs text-gray-500 leading-relaxed">
+              Young creators, YouTube educators, and student engineers have viral potential and inventive prototypes, but they lack $500–$5,000 for critical gear or tooling. Traditional VC ignores checks this small, while bank credit requires collateral youth don't possess.
+            </p>
+          </div>
+
+          <!-- Card 2: The Veteran Opportunity -->
+          <div class="glass-panel p-6 rounded-3xl border border-gray-100 space-y-4 hover-lift">
+            <div class="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-500">
+              <i data-lucide="briefcase" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900">2. The Veteran Opportunity</h3>
+            <p class="text-xs text-gray-500 leading-relaxed">
+              Older generations, retired professionals, and senior industry executives possess decades of domain wisdom, industry contacts, and disposable capital. However, they lack transparent, modern avenues to discover, back, and mentor promising young creators directly.
+            </p>
+          </div>
+
+          <!-- Card 3: The GenBridge Delivery -->
+          <div class="glass-panel p-6 rounded-3xl border border-orange-200 bg-orange-50/30 space-y-4 hover-lift">
+            <div class="w-12 h-12 rounded-2xl bg-orange-100 border border-orange-200 flex items-center justify-center text-orange-500">
+              <i data-lucide="zap" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-bold text-orange-700">3. The GenBridge Solution</h3>
+            <p class="text-xs text-gray-500 leading-relaxed">
+              An on-demand micro-investment network that operates like a food delivery app. Backers order $25 to $250 slices of gear milestones, attaching personalized mentorship advice. Funds are held in milestone escrow and disbursed as verified proof-of-work is submitted.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SECTION 3: WORKING OF THE WEBSITE -->
+      <div id="sectionWorking" class="space-y-8 pt-6">
+        <div class="text-center max-w-2xl mx-auto space-y-2">
+          <span class="text-xs font-bold uppercase tracking-widest text-blue-500">Step-by-Step Flow</span>
+          <h2 class="text-3xl font-black text-gray-900">How GenBridge Works</h2>
+          <p class="text-sm text-gray-500">Transparent, milestone-backed delivery of capital from investor to creator.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          
+          <!-- Column 1: For Promoters & Creators -->
+          <div class="glass-panel p-8 rounded-3xl border border-indigo-100 space-y-6">
+            <div class="flex items-center gap-3 border-b border-gray-200 pb-4">
+              <div class="w-10 h-10 rounded-2xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-500">
+                <i data-lucide="video" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-gray-900">For Creators & Promoters</h3>
+                <p class="text-xs text-gray-500">Turn your channel or idea into fundable milestones</p>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <div class="flex items-start gap-3.5">
+                <span class="w-7 h-7 rounded-xl bg-indigo-100 text-indigo-600 font-bold text-xs flex items-center justify-center shrink-0">1</span>
+                <div>
+                  <h4 class="text-sm font-bold text-gray-900">Pitch Your Campaign Menu</h4>
+                  <p class="text-xs text-gray-500">List specific gear needs (e.g. Sony FX3 camera: $3,500) and rewards for supporters.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3.5">
+                <span class="w-7 h-7 rounded-xl bg-indigo-100 text-indigo-600 font-bold text-xs flex items-center justify-center shrink-0">2</span>
+                <div>
+                  <h4 class="text-sm font-bold text-gray-900">Receive On-Demand Micro-Orders</h4>
+                  <p class="text-xs text-gray-500">Backers fund in bite-sized increments ($25, $50, $100) and send mentorship advice.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3.5">
+                <span class="w-7 h-7 rounded-xl bg-indigo-100 text-indigo-600 font-bold text-xs flex items-center justify-center shrink-0">3</span>
+                <div>
+                  <h4 class="text-sm font-bold text-gray-900">Upload Milestone Proof</h4>
+                  <p class="text-xs text-gray-500">Submit equipment purchase invoices, unlisted YouTube previews, or lab photos.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3.5">
+                <span class="w-7 h-7 rounded-xl bg-indigo-100 text-indigo-600 font-bold text-xs flex items-center justify-center shrink-0">4</span>
+                <div>
+                  <h4 class="text-sm font-bold text-gray-900">Unlock Funds & Deliver Perks</h4>
+                  <p class="text-xs text-gray-500">Escrow releases capital as milestones verify. Fulfill credits and profit perks.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2: For Investors & Mentors -->
+          <div class="glass-panel p-8 rounded-3xl border border-orange-100 space-y-6">
+            <div class="flex items-center gap-3 border-b border-gray-200 pb-4">
+              <div class="w-10 h-10 rounded-2xl bg-orange-100 border border-orange-200 flex items-center justify-center text-orange-500">
+                <i data-lucide="badge-dollar-sign" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-gray-900">For Investors & Mentors</h3>
+                <p class="text-xs text-gray-500">Deploy micro-capital and share generational wisdom</p>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <div class="flex items-start gap-3.5">
+                <span class="w-7 h-7 rounded-xl bg-orange-100 text-orange-600 font-bold text-xs flex items-center justify-center shrink-0">1</span>
+                <div>
+                  <h4 class="text-sm font-bold text-gray-900">Discover Trending Campaigns</h4>
+                  <p class="text-xs text-gray-500">Filter YouTube studios, local green initiatives, and robotics prototypes.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3.5">
+                <span class="w-7 h-7 rounded-xl bg-orange-100 text-orange-600 font-bold text-xs flex items-center justify-center shrink-0">2</span>
+                <div>
+                  <h4 class="text-sm font-bold text-gray-900">Order Micro-Investment + Write Advice</h4>
+                  <p class="text-xs text-gray-500">Back in 1 click like buying a meal. Attach your industry guidance note to the founder.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3.5">
+                <span class="w-7 h-7 rounded-xl bg-orange-100 text-orange-600 font-bold text-xs flex items-center justify-center shrink-0">3</span>
+                <div>
+                  <h4 class="text-sm font-bold text-gray-900">Live Milestone GPS Tracking</h4>
+                  <p class="text-xs text-gray-500">Watch capital delivery advance through order, escrow, purchase, and proof audit.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3.5">
+                <span class="w-7 h-7 rounded-xl bg-orange-100 text-orange-600 font-bold text-xs flex items-center justify-center shrink-0">4</span>
+                <div>
+                  <h4 class="text-sm font-bold text-gray-900">Reap Returns & Generational Impact</h4>
+                  <p class="text-xs text-gray-500">Enjoy producer shoutouts, early cut access, profit vouchers, and mentored progress.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SECTION 4: WHY CHOOSE US -->
+      <div class="space-y-6 pt-4">
+        <div class="text-center max-w-2xl mx-auto space-y-2">
+          <span class="text-xs font-bold uppercase tracking-widest text-blue-500">Key Advantages</span>
+          <h2 class="text-3xl font-black text-gray-900">Why Choose GenBridge</h2>
+          <p class="text-sm text-gray-500">Engineered to eliminate friction, fraud, and predatory finance.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <div class="glass-panel p-6 rounded-3xl border border-gray-100 space-y-3 hover-lift">
+            <div class="w-10 h-10 rounded-xl bg-orange-100 text-orange-500 flex items-center justify-center">
+              <i data-lucide="shield-check" class="w-5 h-5"></i>
+            </div>
+            <h4 class="text-sm font-bold text-gray-900">Milestone Proof Escrow</h4>
+            <p class="text-xs text-gray-500">Funds are held safely in escrow and disbursed sequentially only when verifiable receipts or proof are uploaded.</p>
+          </div>
+
+          <div class="glass-panel p-6 rounded-3xl border border-gray-100 space-y-3 hover-lift">
+            <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-500 flex items-center justify-center">
+              <i data-lucide="message-square-quote" class="w-5 h-5"></i>
+            </div>
+            <h4 class="text-sm font-bold text-gray-900">Wisdom With Every Dollar</h4>
+            <p class="text-xs text-gray-500">Every micro-order includes a direct 1-to-1 mentorship note, connecting youth creators with veteran domain expertise.</p>
+          </div>
+
+          <div class="glass-panel p-6 rounded-3xl border border-gray-100 space-y-3 hover-lift">
+            <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-500 flex items-center justify-center">
+              <i data-lucide="zap" class="w-5 h-5"></i>
+            </div>
+            <h4 class="text-sm font-bold text-gray-900">Zero Debt Burden</h4>
+            <p class="text-xs text-gray-500">Creators avoid crushing loan debts. Instead, funding is powered by reward patronage, sponsor credits, and profit-sharing.</p>
+          </div>
+
+          <div class="glass-panel p-6 rounded-3xl border border-gray-100 space-y-3 hover-lift">
+            <div class="w-10 h-10 rounded-xl bg-orange-100 text-orange-500 flex items-center justify-center">
+              <i data-lucide="database" class="w-5 h-5"></i>
+            </div>
+            <h4 class="text-sm font-bold text-gray-900">Transparent SQL Ledger</h4>
+            <p class="text-xs text-gray-500">All transactions, milestone logs, and proof receipts are recorded on an open, auditable database ledger.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SECTION 5: ABOUT US -->
+      <div class="glass-panel rounded-3xl border border-orange-200 p-8 sm:p-12 relative overflow-hidden bg-gradient-to-br from-white via-orange-50/40 to-blue-50/30 shadow-xl">
+        <div class="absolute right-0 top-0 w-80 h-80 bg-orange-200/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-3xl space-y-5">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 border border-orange-200 text-orange-700 text-xs font-bold">
+            <i data-lucide="users" class="w-3.5 h-3.5"></i>
+            <span>The Team Behind GenBridge</span>
+          </div>
+
+          <h2 class="text-3xl sm:text-4xl font-black text-gray-900">About Us</h2>
+          
+          <!-- Exact user-requested phrase prominently featured -->
+          <div class="p-4 rounded-2xl bg-orange-50 border border-orange-200 text-orange-800 text-base sm:text-lg font-bold flex items-center gap-3">
+            <i data-lucide="sparkles" class="w-6 h-6 text-orange-500 shrink-0"></i>
+            <span>"We are team of 11 Students studying B.Tech in IIIT Bhopal."</span>
+          </div>
+
+          <p class="text-gray-600 text-sm leading-relaxed">
+            We are undergraduates at the <strong>Indian Institute of Information Technology, Bhopal (IIIT Bhopal)</strong> — an Institute of National Importance under the Ministry of Education, Government of India. As young engineering students, we observed firsthand how brilliant college ideas, student hardware prototypes, and creative digital channels wither away simply because there is no accessible mechanism for small-ticket funding.
+          </p>
+
+          <p class="text-gray-600 text-sm leading-relaxed">
+            We designed and architected <strong>GenBridge</strong> to solve this fundamental imbalance. By fusing on-demand food delivery mechanics (menus, instant ordering, milestone courier tracking) with fintech micro-investing and cross-generational mentorship, we empower the next wave of builders across India and the globe.
+          </p>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 text-center">
+            <div class="p-3 rounded-2xl bg-white border border-gray-100 shadow-sm">
+              <div class="text-xl font-black text-orange-500">11</div>
+              <div class="text-[11px] text-gray-400">Student Builders</div>
+            </div>
+            <div class="p-3 rounded-2xl bg-white border border-gray-100 shadow-sm">
+              <div class="text-xl font-black text-gray-900">B.Tech</div>
+              <div class="text-[11px] text-gray-400">Engineering</div>
+            </div>
+            <div class="p-3 rounded-2xl bg-white border border-gray-100 shadow-sm">
+              <div class="text-xl font-black text-blue-500">IIIT</div>
+              <div class="text-[11px] text-gray-400">Bhopal, India</div>
+            </div>
+            <div class="p-3 rounded-2xl bg-white border border-gray-100 shadow-sm">
+              <div class="text-xl font-black text-indigo-500">100%</div>
+              <div class="text-[11px] text-gray-400">Open-Source Spirit</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 6: FEATURED CAMPAIGNS PREVIEW & DISCOVER CTA -->
+      <div class="space-y-6 pt-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-xl font-bold text-gray-900 flex items-center gap-2">
+              <i data-lucide="flame" class="w-5 h-5 text-orange-500"></i>
+              Live Campaign Highlights
+            </h3>
+            <p class="text-xs text-gray-500">Sneak peek of current ongoing projects. View full list in Discover.</p>
+          </div>
+          <button onclick="router.navigate('discover')" class="text-xs font-bold text-orange-500 hover:text-orange-600 flex items-center gap-1 transition">
+            <span>View All Campaigns</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+
+        <div id="homeFeaturedPreview" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Dynamically populated top 2 preview cards -->
+        </div>
+
+        <div class="text-center pt-4">
+          <button onclick="router.navigate('discover')" class="px-8 py-3.5 rounded-2xl bg-orange-500 hover:bg-orange-600 text-white font-extrabold text-sm shadow-xl shadow-orange-500/20 transition-all inline-flex items-center gap-2 hover:scale-[1.02]">
+            <i data-lucide="compass" class="w-4 h-4"></i>
+            <span>Browse All Ongoing & Completed Campaigns</span>
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- VIEW 2: DISCOVER PAGE -->
+    <!-- ======================================================== -->
+    <section id="viewDiscover" class="view-panel hidden space-y-8">
+      
+      <!-- Discover Header -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-200/80 pb-6">
+        <div>
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-600 text-xs font-bold mb-2">
+            <i data-lucide="compass" class="w-3.5 h-3.5 text-blue-500"></i>
+            <span>Campaigns Directory</span>
+          </div>
+          <h1 class="text-3xl font-black text-gray-900">Discover Campaigns</h1>
+          <p class="text-xs text-gray-500">Filter between active ongoing funding rounds and verified completed campaigns.</p>
+        </div>
+
+        <!-- Sub-Tabs: Ongoing vs Completed vs All -->
+        <div class="flex items-center p-1.5 bg-gray-50 rounded-2xl border border-gray-200 gap-1 shadow-inner">
+          <button onclick="app.setDiscoverTab('ongoing')" class="discover-tab-btn active px-4 py-2 rounded-xl text-xs font-bold bg-orange-500 text-white shadow-md shadow-orange-500/20 transition" data-tab="ongoing">
+            🔥 Ongoing Campaigns
+          </button>
+          <button onclick="app.setDiscoverTab('completed')" class="discover-tab-btn px-4 py-2 rounded-xl text-xs font-bold text-gray-500 hover:text-gray-900 hover:bg-white transition" data-tab="completed">
+            ✅ Completed Campaigns
+          </button>
+          <button onclick="app.setDiscoverTab('all')" class="discover-tab-btn px-4 py-2 rounded-xl text-xs font-bold text-gray-500 hover:text-gray-900 hover:bg-white transition" data-tab="all">
+            ✨ All
+          </button>
+        </div>
+      </div>
+
+      <!-- CATEGORY CHIPS -->
+      <div id="categoryFilters" class="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-none">
+        <button onclick="app.setCategory('All')" class="category-btn active px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap bg-orange-500 text-white border border-orange-500 transition shadow-md shadow-orange-500/15" data-category="All">
+          ✨ All Menus
+        </button>
+        <button onclick="app.setCategory('YouTube & Creators')" class="category-btn px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap bg-white text-gray-600 border border-gray-200 hover:border-orange-300 hover:text-gray-900 transition" data-category="YouTube & Creators">
+          🎥 YouTube & Creators
+        </button>
+        <button onclick="app.setCategory('Tech Startups')" class="category-btn px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap bg-white text-gray-600 border border-gray-200 hover:border-orange-300 hover:text-gray-900 transition" data-category="Tech Startups">
+          🚀 Tech Startups
+        </button>
+        <button onclick="app.setCategory('Local Business')" class="category-btn px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap bg-white text-gray-600 border border-gray-200 hover:border-orange-300 hover:text-gray-900 transition" data-category="Local Business">
+          🌿 Local & Green
+        </button>
+        <button onclick="app.setCategory('Student Prototypes')" class="category-btn px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap bg-white text-gray-600 border border-gray-200 hover:border-orange-300 hover:text-gray-900 transition" data-category="Student Prototypes">
+          💡 Student Prototypes
+        </button>
+      </div>
+
+      <!-- CAMPAIGNS GRID -->
+      <div class="space-y-4">
+        <div class="flex items-center justify-between">
+          <span id="campaignCountBadge" class="text-xs text-gray-500 font-semibold">Loading campaigns...</span>
+        </div>
+
+        <div id="discoverCampaignsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- VIEW 3: MY DELIVERIES / ACTIVE INVESTMENTS TRACKER -->
+    <!-- ======================================================== -->
+    <section id="viewDeliveries" class="view-panel hidden space-y-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <i data-lucide="truck" class="w-6 h-6 text-blue-500"></i>
+            Live Investment Deliveries & Progress
+          </h1>
+          <p class="text-sm text-gray-500">Track your funded capital, milestone achievements, and mentor interactions in real-time.</p>
+        </div>
+        <button onclick="app.loadUserInvestments()" class="px-3.5 py-2 rounded-xl bg-white hover:bg-gray-50 border border-gray-200 text-xs text-gray-600 flex items-center gap-1.5 transition">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-blue-500"></i> Refresh Status
+        </button>
+      </div>
+
+      <div id="myInvestmentsList" class="space-y-4">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- VIEW 4: PROMOTER / CREATOR STUDIO -->
+    <!-- ======================================================== -->
+    <section id="viewPromoter" class="view-panel hidden space-y-8">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <i data-lucide="sparkle" class="w-6 h-6 text-indigo-500"></i>
+            Creator & Founder Studio
+          </h1>
+          <p class="text-sm text-gray-500">Pitch your channel gear, startup needs, or prototypes directly to supportive backers.</p>
+        </div>
+        <button onclick="promoter.openCreateModal()" class="px-5 py-2.5 rounded-2xl bg-indigo-500 hover:bg-indigo-600 text-white font-bold text-sm transition flex items-center gap-2 shadow-xl shadow-indigo-500/20">
+          <i data-lucide="plus-circle" class="w-4 h-4"></i> Create New Pitch
+        </button>
+      </div>
+
+      <!-- Promoter Campaigns List -->
+      <div class="space-y-4">
+        <h2 class="text-lg font-bold text-gray-900">Your Pitches & Campaigns</h2>
+        <div id="promoterCampaignsList" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- VIEW 5: PRIVATE ADMIN PANEL -->
+    <!-- ======================================================== -->
+    <section id="viewAdmin" class="view-panel hidden space-y-6">
+      
+      <!-- Admin Header -->
+      <div class="glass-panel rounded-3xl p-6 border border-orange-200 bg-gradient-to-r from-white via-orange-50/30 to-white flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-lg">
+        <div>
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 border border-orange-200 text-orange-700 text-xs font-bold uppercase tracking-wider mb-2">
+            <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-orange-600"></i> Superadmin Control Suite
+          </div>
+          <h1 class="text-2xl md:text-3xl font-black text-gray-900">GenBridge Central Governance</h1>
+          <p class="text-xs md:text-sm text-gray-500">Alter all system options, review & verify campaigns, moderate users, and tune financial parameters.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="admin.refreshAll()" class="px-4 py-2 rounded-xl bg-white hover:bg-gray-50 border border-gray-200 text-xs text-gray-600 font-bold flex items-center gap-1.5 transition">
+            <i data-lucide="rotate-cw" class="w-4 h-4 text-orange-500"></i> Refresh Data
+          </button>
+        </div>
+      </div>
+
+      <!-- Admin Tabs Navigation -->
+      <div class="flex items-center gap-2 border-b border-gray-200 pb-2 overflow-x-auto scrollbar-none">
+        <button onclick="admin.setTab('overview')" class="admin-tab active px-4 py-2 rounded-xl text-xs font-bold bg-orange-500 text-white transition" data-admin-tab="overview">
+          📊 Platform KPIs
+        </button>
+        <button onclick="admin.setTab('campaigns')" class="admin-tab px-4 py-2 rounded-xl text-xs font-bold bg-white text-gray-500 hover:text-gray-900 border border-gray-200 transition" data-admin-tab="campaigns">
+          🎯 Manage Campaigns (<span id="adminCampCount">0</span>)
+        </button>
+        <button onclick="admin.setTab('users')" class="admin-tab px-4 py-2 rounded-xl text-xs font-bold bg-white text-gray-500 hover:text-gray-900 border border-gray-200 transition" data-admin-tab="users">
+          👥 Manage Users (<span id="adminUserCount">0</span>)
+        </button>
+        <button onclick="admin.setTab('investments')" class="admin-tab px-4 py-2 rounded-xl text-xs font-bold bg-white text-gray-500 hover:text-gray-900 border border-gray-200 transition" data-admin-tab="investments">
+          📦 Investment Orders (<span id="adminOrderCount">0</span>)
+        </button>
+        <button onclick="admin.setTab('settings')" class="admin-tab px-4 py-2 rounded-xl text-xs font-bold bg-white text-gray-500 hover:text-gray-900 border border-gray-200 transition" data-admin-tab="settings">
+          ⚙️ Global System Options
+        </button>
+      </div>
+
+      <!-- Admin Tab: Overview -->
+      <div id="adminTabOverview" class="admin-subtab space-y-6">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="glass-panel p-5 rounded-2xl border border-gray-100">
+            <div class="text-xs text-gray-500 mb-1">Total Delivered Volume</div>
+            <div class="text-2xl font-bold text-orange-500" id="admTotalVolume">$0</div>
+            <div class="text-[11px] text-gray-400 mt-1">Gross funding moved</div>
+          </div>
+          <div class="glass-panel p-5 rounded-2xl border border-gray-100">
+            <div class="text-xs text-gray-500 mb-1">Platform Revenue (5%)</div>
+            <div class="text-2xl font-bold text-orange-600" id="admPlatformRev">$0</div>
+            <div class="text-[11px] text-gray-400 mt-1">Collected platform fees</div>
+          </div>
+          <div class="glass-panel p-5 rounded-2xl border border-gray-100">
+            <div class="text-xs text-gray-500 mb-1">Total Campaigns</div>
+            <div class="text-2xl font-bold text-indigo-500" id="admTotalCamps">0</div>
+            <div class="text-[11px] text-gray-400 mt-1"><span id="admActiveCamps">0</span> active</div>
+          </div>
+          <div class="glass-panel p-5 rounded-2xl border border-gray-100">
+            <div class="text-xs text-gray-500 mb-1">Total Registered Accounts</div>
+            <div class="text-2xl font-bold text-blue-500" id="admTotalUsers">0</div>
+            <div class="text-[11px] text-gray-400 mt-1"><span id="admPromoterCount">0</span> promoters, <span id="admInvestorCount">0</span> backers</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Tab: Campaigns -->
+      <div id="adminTabCampaigns" class="admin-subtab hidden space-y-4">
+        <div class="glass-panel rounded-2xl border border-gray-100 overflow-hidden">
+          <div class="p-4 border-b border-gray-200 flex items-center justify-between">
+            <h3 class="font-bold text-sm text-gray-900">All Platform Campaigns (Alterable by Admin)</h3>
+            <span class="text-xs text-gray-400">Click actions to approve, reject, feature, or edit</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-gray-50 text-gray-500 uppercase font-semibold border-b border-gray-200">
+                <tr>
+                  <th class="p-3">Campaign</th>
+                  <th class="p-3">Promoter</th>
+                  <th class="p-3">Category</th>
+                  <th class="p-3">Funding Progress</th>
+                  <th class="p-3">Status</th>
+                  <th class="p-3">Featured</th>
+                  <th class="p-3 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminCampaignsTable" class="divide-y divide-gray-100">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Tab: Users -->
+      <div id="adminTabUsers" class="admin-subtab hidden space-y-4">
+        <div class="glass-panel rounded-2xl border border-gray-100 overflow-hidden">
+          <div class="p-4 border-b border-gray-200 flex items-center justify-between">
+            <h3 class="font-bold text-sm text-gray-900">Registered Users & Promoters</h3>
+            <span class="text-xs text-gray-400">Change roles, adjust wallet balance, or suspend accounts</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-gray-50 text-gray-500 uppercase font-semibold border-b border-gray-200">
+                <tr>
+                  <th class="p-3">User</th>
+                  <th class="p-3">Role</th>
+                  <th class="p-3">Status</th>
+                  <th class="p-3">Wallet Balance</th>
+                  <th class="p-3">Activity</th>
+                  <th class="p-3 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminUsersTable" class="divide-y divide-gray-100">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Tab: Investment Orders -->
+      <div id="adminTabInvestments" class="admin-subtab hidden space-y-4">
+        <div class="glass-panel rounded-2xl border border-gray-100 overflow-hidden">
+          <div class="p-4 border-b border-gray-200 flex items-center justify-between">
+            <h3 class="font-bold text-sm text-gray-900">All Micro-Investment Deliveries</h3>
+            <span class="text-xs text-gray-400">Master ledger of capital transfers and wisdom messages</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-gray-50 text-gray-500 uppercase font-semibold border-b border-gray-200">
+                <tr>
+                  <th class="p-3">Order #</th>
+                  <th class="p-3">Investor</th>
+                  <th class="p-3">Idea / Campaign</th>
+                  <th class="p-3">Amount</th>
+                  <th class="p-3">Platform Fee</th>
+                  <th class="p-3">Delivery Status</th>
+                  <th class="p-3">Mentor Note</th>
+                  <th class="p-3 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminInvestmentsTable" class="divide-y divide-gray-100">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Tab: Global System Options -->
+      <div id="adminTabSettings" class="admin-subtab hidden space-y-6">
+        <div class="glass-panel p-6 rounded-3xl border border-gray-100 max-w-3xl space-y-5">
+          <div>
+            <h3 class="text-lg font-bold text-gray-900">Platform Configuration & Alteration</h3>
+            <p class="text-xs text-gray-500">All options below can be adjusted by administration and take effect immediately across the app.</p>
+          </div>
+
+          <form id="adminSettingsForm" onsubmit="admin.saveSettings(event)" class="space-y-4 text-xs">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block font-semibold text-gray-600 mb-1">Platform Name</label>
+                <input type="text" id="cfgPlatformName" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400">
+              </div>
+              <div>
+                <label class="block font-semibold text-gray-600 mb-1">Currency Symbol</label>
+                <input type="text" id="cfgCurrencySymbol" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block font-semibold text-gray-600 mb-1">Platform Commission Fee (%)</label>
+                <input type="number" step="0.1" id="cfgCommission" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400">
+              </div>
+              <div>
+                <label class="block font-semibold text-gray-600 mb-1">Minimum Investment ($)</label>
+                <input type="number" step="1" id="cfgMinInvest" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400">
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-semibold text-gray-600 mb-1">Live Top Announcement Banner</label>
+              <textarea id="cfgBanner" rows="2" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400"></textarea>
+            </div>
+
+            <div class="flex items-center gap-2 pt-2">
+              <input type="checkbox" id="cfgAllowRegs" class="w-4 h-4 rounded text-orange-500 bg-white border-gray-300 focus:ring-orange-400">
+              <label for="cfgAllowRegs" class="text-gray-600">Allow New Public User & Promoter Registrations</label>
+            </div>
+
+            <div class="pt-4 border-t border-gray-200 flex justify-end">
+              <button type="submit" class="px-5 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs shadow-lg shadow-orange-500/15 transition flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4"></i> Save Global Settings
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- MODALS (Invest, Detail, Tracking, Create, Auth) -->
+  <!-- ======================================================== -->
+
+  <!-- MODAL: ORDER MICRO-INVESTMENT -->
+  <div id="investModal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-panel w-full max-w-lg rounded-3xl p-6 sm:p-8 border border-orange-200 relative fade-in bg-white">
+      <button onclick="app.closeModal('investModal')" class="absolute top-5 right-5 text-gray-400 hover:text-gray-700">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-2xl bg-orange-100 border border-orange-200 flex items-center justify-center text-orange-500">
+          <i data-lucide="send" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold text-gray-900">Order Micro-Investment</h3>
+          <p class="text-xs text-gray-500">Deliver capital & mentor wisdom directly to this creator</p>
+        </div>
+      </div>
+
+      <div id="investTargetSummary" class="bg-gray-50 rounded-2xl p-4 border border-gray-200 mb-5 flex items-center gap-3">
+        <!-- Injected by JS -->
+      </div>
+
+      <form id="investForm" onsubmit="app.submitInvestment(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-2">Select Investment Tier</label>
+          <div class="grid grid-cols-4 gap-2 mb-2">
+            <button type="button" onclick="app.setInvestAmount(25)" class="tier-btn py-2 text-xs font-bold rounded-xl border border-gray-200 bg-white hover:border-orange-400 text-gray-700 transition">$25</button>
+            <button type="button" onclick="app.setInvestAmount(50)" class="tier-btn py-2 text-xs font-bold rounded-xl border border-gray-200 bg-white hover:border-orange-400 text-gray-700 transition">$50</button>
+            <button type="button" onclick="app.setInvestAmount(100)" class="tier-btn py-2 text-xs font-bold rounded-xl border border-gray-200 bg-white hover:border-orange-400 text-gray-700 transition">$100</button>
+            <button type="button" onclick="app.setInvestAmount(250)" class="tier-btn py-2 text-xs font-bold rounded-xl border border-gray-200 bg-white hover:border-orange-400 text-gray-700 transition">$250</button>
+          </div>
+          <div class="relative">
+            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 font-bold">$</span>
+            <input type="number" id="investAmountInput" min="5" step="1" required class="w-full bg-white border border-gray-200 rounded-xl pl-8 pr-4 py-2.5 text-gray-800 font-bold focus:outline-none focus:ring-2 focus:ring-orange-400">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-orange-600 mb-1 flex items-center gap-1.5">
+            <i data-lucide="message-square-quote" class="w-3.5 h-3.5"></i>
+            Cross-Generational Wisdom & Mentor Advice
+          </label>
+          <textarea id="investMentorNote" rows="3" placeholder="Share an encouraging tip, industry experience, or advice to guide this founder..." class="w-full bg-white border border-gray-200 rounded-xl p-3 text-xs text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400"></textarea>
+        </div>
+
+        <!-- Breakdown -->
+        <div class="bg-gray-50 rounded-xl p-3 border border-gray-200 text-xs space-y-1">
+          <div class="flex justify-between text-gray-500">
+            <span>Direct to Creator:</span>
+            <span id="investNetToCreator" class="text-gray-800 font-medium">$0.00</span>
+          </div>
+          <div class="flex justify-between text-gray-500">
+            <span>Platform Fee (<span id="investFeePercent">5</span>%):</span>
+            <span id="investPlatformFee" class="text-gray-800 font-medium">$0.00</span>
+          </div>
+          <div class="flex justify-between text-orange-600 font-bold pt-1 border-t border-gray-200">
+            <span>Total Debited from Wallet:</span>
+            <span id="investTotalDebit">$0.00</span>
+          </div>
+        </div>
+
+        <div class="pt-2">
+          <button type="submit" id="confirmInvestBtn" class="w-full py-3 rounded-2xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm shadow-xl shadow-orange-500/20 transition flex items-center justify-center gap-2">
+            <i data-lucide="zap" class="w-4 h-4"></i> Confirm & Deliver Investment
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: LIVE DELIVERY & MILESTONE TRACKER -->
+  <div id="trackerModal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-panel w-full max-w-2xl rounded-3xl p-6 sm:p-8 border border-blue-200 relative fade-in max-h-[90vh] overflow-y-auto bg-white">
+      <button onclick="app.closeModal('trackerModal')" class="absolute top-5 right-5 text-gray-400 hover:text-gray-700">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-500">
+          <i data-lucide="navigation" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <div class="inline-flex items-center gap-1.5 text-xs text-blue-500 font-bold">
+            <span class="w-2 h-2 rounded-full bg-blue-500 animate-ping"></span> Live Delivery Tracking
+          </div>
+          <h3 class="text-xl font-bold text-gray-900" id="trackOrderTitle">Order #GB-XXXXX</h3>
+        </div>
+      </div>
+
+      <!-- Live Delivery Pipeline Timeline -->
+      <div class="relative pl-6 space-y-6 before:absolute before:left-2.5 before:top-3 before:bottom-3 before:w-0.5 before:bg-gradient-to-b before:from-orange-400 before:via-blue-400 before:to-gray-300">
+        
+        <div class="relative flex items-start gap-4">
+          <div class="w-6 h-6 rounded-full bg-orange-500 text-white flex items-center justify-center text-xs font-bold absolute -left-6 ring-4 ring-white">✓</div>
+          <div>
+            <div class="font-bold text-sm text-gray-900">Investment Placed</div>
+            <div class="text-xs text-gray-500">Micro-capital pledged by backer. Generational mentorship note attached.</div>
+          </div>
+        </div>
+
+        <div class="relative flex items-start gap-4">
+          <div class="w-6 h-6 rounded-full bg-orange-500 text-white flex items-center justify-center text-xs font-bold absolute -left-6 ring-4 ring-white">✓</div>
+          <div>
+            <div class="font-bold text-sm text-gray-900">Capital Disbursed to Creator</div>
+            <div class="text-xs text-gray-500">Funds cleared and deposited into creator's production wallet.</div>
+          </div>
+        </div>
+
+        <div class="relative flex items-start gap-4">
+          <div class="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center text-xs font-bold absolute -left-6 ring-4 ring-white pulse-active">⚙</div>
+          <div>
+            <div class="font-bold text-sm text-blue-600">Milestone Execution In Progress</div>
+            <div class="text-xs text-gray-500">Creator is currently deploying capital (purchasing hardware, building prototype).</div>
+          </div>
+        </div>
+
+        <div class="relative flex items-start gap-4">
+          <div class="w-6 h-6 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center text-xs font-bold absolute -left-6 ring-4 ring-white">📸</div>
+          <div>
+            <div class="font-bold text-sm text-gray-500">Proof-of-Work Verification</div>
+            <div class="text-xs text-gray-400">Receipts, unlisted preview video, or lab photos submitted for audit.</div>
+          </div>
+        </div>
+
+        <div class="relative flex items-start gap-4">
+          <div class="w-6 h-6 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center text-xs font-bold absolute -left-6 ring-4 ring-white">🎁</div>
+          <div>
+            <div class="font-bold text-sm text-gray-500">Delivered & Backer Perks Unlocked</div>
+            <div class="text-xs text-gray-400">Video credits, revenue share distributions, or physical rewards fulfilled.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Attached Milestone Proofs & Receipts -->
+      <div class="mt-8 pt-6 border-t border-gray-200 space-y-3">
+        <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider">Milestone Receipts & Proofs</h4>
+        <div id="trackMilestonesContainer" class="space-y-2">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CAMPAIGN DETAIL & STORY -->
+  <div id="detailModal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-panel w-full max-w-3xl rounded-3xl p-6 sm:p-8 border border-gray-200 relative fade-in max-h-[90vh] overflow-y-auto bg-white">
+      <button onclick="app.closeModal('detailModal')" class="absolute top-5 right-5 text-gray-400 hover:text-gray-700">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div id="detailModalContent" class="space-y-6">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PROMOTER CREATE PITCH -->
+  <div id="createPitchModal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-panel w-full max-w-2xl rounded-3xl p-6 sm:p-8 border border-indigo-200 relative fade-in max-h-[90vh] overflow-y-auto bg-white">
+      <button onclick="app.closeModal('createPitchModal')" class="absolute top-5 right-5 text-gray-400 hover:text-gray-700">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-11 h-11 rounded-2xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-500">
+          <i data-lucide="video" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold text-gray-900">Create New Pitch / Campaign</h3>
+          <p class="text-xs text-gray-500">Explain your idea, funding requirement, and backer rewards</p>
+        </div>
+      </div>
+
+      <form id="createPitchForm" onsubmit="promoter.submitPitch(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-semibold text-gray-600 mb-1">Pitch Title *</label>
+          <input type="text" id="pitchTitle" required placeholder="e.g. NextGen Studio: 4K Cinema Rig & Audio Lab" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-600 mb-1">Short Tagline (Menu Summary) *</label>
+          <input type="text" id="pitchTagline" required placeholder="e.g. Upgrading tech channel from smartphone to Sony FX3 cinema setup" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-semibold text-gray-600 mb-1">Category *</label>
+            <select id="pitchCategory" required class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+              <option value="YouTube & Creators">YouTube & Creators</option>
+              <option value="Tech Startups">Tech Startups</option>
+              <option value="Local Business">Local Business & Green</option>
+              <option value="Student Prototypes">Student Prototypes</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-gray-600 mb-1">Target Funding Amount ($) *</label>
+            <input type="number" id="pitchTarget" required min="50" step="10" placeholder="3500" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-600 mb-1">Full Story & Execution Plan *</label>
+          <textarea id="pitchDescription" rows="4" required placeholder="Describe your background, what gear or machinery you will purchase, and how it will elevate your channel or startup..." class="w-full bg-white border border-gray-200 rounded-xl p-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-400"></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-semibold text-gray-600 mb-1">Cover Image URL</label>
+            <input type="url" id="pitchImage" placeholder="https://images.unsplash.com/..." class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+          </div>
+          <div>
+            <label class="block font-semibold text-gray-600 mb-1">Video Pitch URL (YouTube / Vimeo)</label>
+            <input type="url" id="pitchVideo" placeholder="https://youtube.com/watch?v=..." class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-600 mb-1">Perks & Rewards for Backers</label>
+          <input type="text" id="pitchPerks" placeholder="e.g. In-video credits, early access cuts, product sampler pack" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+        </div>
+
+        <div class="pt-4 border-t border-gray-200 flex justify-end gap-2">
+          <button type="button" onclick="app.closeModal('createPitchModal')" class="px-4 py-2 rounded-xl bg-gray-100 text-gray-600">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-indigo-500 hover:bg-indigo-600 text-white font-bold transition">Publish Pitch</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: AUTHENTICATION -->
+  <div id="authModal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-panel w-full max-w-md rounded-3xl p-6 sm:p-8 border border-gray-200 relative fade-in bg-white">
+      <button onclick="app.closeModal('authModal')" class="absolute top-5 right-5 text-gray-400 hover:text-gray-700">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-2xl overflow-hidden ring-2 ring-orange-200">
+          <img src="/assets/GenBridge.jpg" alt="Logo" class="w-full h-full object-cover" onerror="this.src='/GenBridge.jpg'">
+        </div>
+        <div>
+          <h3 class="text-xl font-bold text-gray-900" id="authModalTitle">Sign In to GenBridge</h3>
+          <p class="text-xs text-gray-500">Bridge ideas and experienced capital</p>
+        </div>
+      </div>
+
+      <!-- Mode Toggle: Sign In vs Sign Up -->
+      <div class="grid grid-cols-2 gap-1 p-1 bg-gray-50 rounded-xl mb-4 text-xs font-semibold">
+        <button type="button" onclick="auth.setAuthMode('login')" id="authToggleLogin" class="py-2 rounded-lg bg-orange-500 text-white transition">Sign In</button>
+        <button type="button" onclick="auth.setAuthMode('signup')" id="authToggleSignup" class="py-2 rounded-lg text-gray-500 hover:text-gray-900 transition">Sign Up</button>
+      </div>
+
+      <form id="authForm" onsubmit="auth.handleSubmit(event)" class="space-y-4 text-xs">
+        
+        <!-- Signup-only fields -->
+        <div id="authSignupFields" class="hidden space-y-3">
+          <div>
+            <label class="block font-semibold text-gray-600 mb-1">Full Name</label>
+            <input type="text" id="authName" placeholder="Your Name" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400">
+          </div>
+
+          <div>
+            <label class="block font-semibold text-gray-600 mb-1">I want to join as</label>
+            <div class="grid grid-cols-2 gap-2">
+              <label class="flex items-center gap-2 p-2.5 rounded-xl border border-gray-200 bg-white cursor-pointer hover:border-orange-400">
+                <input type="radio" name="authRole" value="user" checked class="text-orange-500 focus:ring-orange-400">
+                <div>
+                  <div class="font-bold text-gray-800 text-[11px]">Investor / Backer</div>
+                  <div class="text-[9px] text-gray-400">Deploy capital & mentorship</div>
+                </div>
+              </label>
+              <label class="flex items-center gap-2 p-2.5 rounded-xl border border-gray-200 bg-white cursor-pointer hover:border-indigo-400">
+                <input type="radio" name="authRole" value="promoter" class="text-indigo-500 focus:ring-indigo-400">
+                <div>
+                  <div class="font-bold text-gray-800 text-[11px]">Promoter / Creator</div>
+                  <div class="text-[9px] text-gray-400">Pitch ideas & receive funds</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-semibold text-gray-600 mb-1">Bio / Generational Experience</label>
+            <input type="text" id="authBio" placeholder="e.g. 25 years in tech leadership OR Gen-Z robotics builder" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-600 mb-1">Email Address</label>
+          <input type="email" id="authEmail" required placeholder="name@domain.com" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-600 mb-1">Password</label>
+          <input type="password" id="authPassword" required placeholder="••••••••" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400">
+        </div>
+
+        <button type="submit" id="authSubmitBtn" class="w-full py-3 rounded-2xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm shadow-xl shadow-orange-500/20 transition">
+          Sign In
+        </button>
+
+      </form>
+
+      <!-- Fast Demo Switcher Footer inside modal -->
+      <div class="mt-6 pt-4 border-t border-gray-200 text-center">
+        <div class="text-[11px] text-gray-400 mb-2">Or test instantly with a demo persona:</div>
+        <div class="flex items-center justify-center gap-2">
+          <button onclick="auth.fastLogin('robert@investor.com', 'user123')" class="px-2.5 py-1 rounded-lg bg-gray-50 hover:bg-blue-50 text-blue-600 text-[11px] font-semibold border border-gray-200">Investor</button>
+          <button onclick="auth.fastLogin('alex@creator.com', 'promoter123')" class="px-2.5 py-1 rounded-lg bg-gray-50 hover:bg-indigo-50 text-indigo-600 text-[11px] font-semibold border border-gray-200">Promoter</button>
+          <button onclick="auth.fastLogin('admin@genbridge.org', 'admin123')" class="px-2.5 py-1 rounded-lg bg-gray-50 hover:bg-orange-50 text-orange-600 text-[11px] font-semibold border border-gray-200">Admin</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="relative z-10 mt-auto border-t border-gray-200 bg-white/90 backdrop-blur-xl py-8 text-xs text-gray-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-xl overflow-hidden ring-1 ring-orange-200 p-0.5 bg-white">
+          <img src="/assets/GenBridge.jpg" alt="Logo" class="w-full h-full object-cover rounded-lg" onerror="this.src='/GenBridge.jpg'">
+        </div>
+        <div>
+          <span class="font-bold text-gray-700">GenBridge</span>
+          <span class="text-gray-300 mx-1.5">•</span>
+          <span class="text-gray-400">Team of 11 Students, B.Tech, IIIT Bhopal</span>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-4">
+        <a href="#/home" class="hover:text-orange-500 transition">Home</a>
+        <a href="#/discover" class="hover:text-blue-500 transition">Discover</a>
+        <a href="#/promoter" class="hover:text-indigo-500 transition">Creator Studio</a>
+        <a href="#/admin" class="hover:text-orange-500 transition">Private Admin Portal</a>
+        <span class="text-gray-200">•</span>
+        <button onclick="if(window.matrixEffect) window.matrixEffect.toggle()" class="hover:text-orange-500 transition text-[11px] flex items-center gap-1 text-orange-400">
+          <i data-lucide="power" class="w-3 h-3"></i> Matrix Background
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Notification Toast Container -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
+
+  <!-- Matrix Rain Script -->
+  <script src="/js/matrix.js"></script>
+  <!-- Application Logic -->
+  <script src="/js/app.js"></script>
+</body>
+</html>

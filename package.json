@@ -1,0 +1,26 @@
+{
+  "name": "genbridge",
+  "version": "1.0.0",
+  "description": "GenBridge - On-Demand Micro-Investments & Generational Mentorship Platform",
+  "main": "server.js",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "node -e \"console.log('Build completed for GenBridge.')\""
+  },
+  "keywords": [
+    "micro-investing",
+    "crowdfunding",
+    "mentorship",
+    "startups",
+    "youtube-creators",
+    "student-prototypes",
+    "genbridge",
+    "vercel"
+  ],
+  "author": "GenBridge Team (IIIT Bhopal)",
+  "license": "ISC"
+}
