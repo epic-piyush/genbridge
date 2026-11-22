@@ -9,7 +9,7 @@
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-0-orange.svg)](#-zero-dependency-architecture)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](package.json)
 
-![PitchFund Logo](pitchfund.jpg)
+![PitchFund Logo](logo.jpg)
 
 ---
 
