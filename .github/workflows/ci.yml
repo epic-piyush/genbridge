@@ -1,4 +1,4 @@
-name: GenBridge CI & Health Check
+name: PitchFund CI & Health Check
 
 on:
   push:
@@ -32,4 +32,4 @@ jobs:
         sleep 2
         curl -f http://127.0.0.1:3000/api/health || exit 1
         curl -f http://127.0.0.1:3000/api/settings || exit 1
-        echo "GenBridge API and Database operational!"
+        echo "PitchFund API and Database operational!"

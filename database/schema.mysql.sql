@@ -1,11 +1,11 @@
 -- ========================================================
--- GenBridge - MySQL Database Schema & Initial Data
--- Description: Bridging Generational Wealth & Ideas
+-- PitchFund - MySQL Database Schema & Initial Data
+-- Description: Micro-Investments & Idea Funding Platform
 -- Supports: MySQL 5.7+, MySQL 8.0+, MariaDB 10.3+
 -- ========================================================
 
-CREATE DATABASE IF NOT EXISTS genbridge_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE genbridge_db;
+CREATE DATABASE IF NOT EXISTS pitchfund_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE pitchfund_db;
 
 -- 1. Table: users (Investors, Promoters, Admin)
 DROP TABLE IF EXISTS investments;
@@ -98,18 +98,18 @@ CREATE TABLE platform_settings (
 -- Seed Initial Settings
 -- ========================================================
 INSERT INTO platform_settings (setting_key, setting_value, description) VALUES
-('platform_name', 'GenBridge', 'Official branding title for the platform'),
+('platform_name', 'PitchFund', 'Official branding title for the platform'),
 ('platform_commission_percent', '5.0', 'Platform fee percentage charged on micro-investments'),
 ('min_investment_global', '10.00', 'Minimum allowable micro-investment across any campaign'),
 ('currency_symbol', '$', 'Currency symbol used throughout the interface'),
 ('allow_new_registrations', 'true', 'System flag to enable or pause public signups'),
-('announcement_banner', '🚀 Welcome to GenBridge: Connecting experienced wisdom & capital with the next generation of creators!', 'Top banner alert message');
+('announcement_banner', '🚀 Welcome to PitchFund: Connecting experienced wisdom & capital with the next generation of creators!', 'Top banner alert message');
 
 -- ========================================================
 -- Seed Initial Demo Users (Pass: admin123, promoter123, user123)
 -- ========================================================
 INSERT INTO users (id, name, email, password_hash, role, bio, wallet_balance) VALUES
-(1, 'System Administrator', 'admin@genbridge.org', 'b9b21f3f619b015e3b2e51965a388a10:486a44c7b88950d4f29ee87f5e3bf32ca181cb239e3f61ec885c4900a68d0bb56114eb3a48e7150c2668fc723f508d6bcba71a0ea4a36f73449339e80277df60', 'admin', 'Superadmin overseeing GenBridge ecosystem governance, compliance & approvals.', 10000.00),
+(1, 'System Administrator', 'admin@pitchfund.org', 'b9b21f3f619b015e3b2e51965a388a10:486a44c7b88950d4f29ee87f5e3bf32ca181cb239e3f61ec885c4900a68d0bb56114eb3a48e7150c2668fc723f508d6bcba71a0ea4a36f73449339e80277df60', 'admin', 'Superadmin overseeing PitchFund ecosystem governance, compliance & approvals.', 10000.00),
 (2, 'Alex Rivera', 'alex@creator.com', 'b9b21f3f619b015e3b2e51965a388a10:486a44c7b88950d4f29ee87f5e3bf32ca181cb239e3f61ec885c4900a68d0bb56114eb3a48e7150c2668fc723f508d6bcba71a0ea4a36f73449339e80277df60', 'promoter', 'Tech YouTuber & Edu-Creator building a deep-dive hardware breakdown studio.', 250.00),
 (3, 'Sarah Chen', 'sarah@bioblend.co', 'b9b21f3f619b015e3b2e51965a388a10:486a44c7b88950d4f29ee87f5e3bf32ca181cb239e3f61ec885c4900a68d0bb56114eb3a48e7150c2668fc723f508d6bcba71a0ea4a36f73449339e80277df60', 'promoter', '22-year-old material science grad creating 100% biodegradable bamboo chai cups.', 120.00),
 (4, 'Robert Montgomery', 'robert@investor.com', 'b9b21f3f619b015e3b2e51965a388a10:486a44c7b88950d4f29ee87f5e3bf32ca181cb239e3f61ec885c4900a68d0bb56114eb3a48e7150c2668fc723f508d6bcba71a0ea4a36f73449339e80277df60', 'user', 'Retired Telecom VP passionate about mentoring Gen-Z tech creators & local green businesses.', 4200.00);

@@ -1,7 +1,7 @@
 {
-  "name": "genbridge",
+  "name": "pitchfund",
   "version": "1.0.0",
-  "description": "GenBridge - On-Demand Micro-Investments & Generational Mentorship Platform",
+  "description": "PitchFund - On-Demand Micro-Investments & Creator Funding Platform",
   "main": "server.js",
   "engines": {
     "node": ">=22.0.0"
@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "build": "node -e \"console.log('Build completed for GenBridge.')\""
+    "build": "node -e \"console.log('Build completed for PitchFund.')\""
   },
   "keywords": [
     "micro-investing",
@@ -18,9 +18,9 @@
     "startups",
     "youtube-creators",
     "student-prototypes",
-    "genbridge",
+    "pitchfund",
     "vercel"
   ],
-  "author": "GenBridge Team (IIIT Bhopal)",
+  "author": "PitchFund Team (IIIT Bhopal)",
   "license": "ISC"
 }

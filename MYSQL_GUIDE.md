@@ -1,13 +1,13 @@
-# 🗄️ GenBridge SQL & MySQL Database Architecture Guide
+# 🗄️ PitchFund SQL & MySQL Database Architecture Guide
 
-This guide details the SQL database design powering **GenBridge**, including both the out-of-the-box **SQLite engine** (zero-setup, built right into Node.js 22.5+) and the production **MySQL / MariaDB schema** (`database/schema.mysql.sql`).
+This guide details the SQL database design powering **PitchFund**, including both the out-of-the-box **SQLite engine** (zero-setup, built right into Node.js 22.5+) and the production **MySQL / MariaDB schema** (`database/schema.mysql.sql`).
 
 ---
 
 ## 1. Architectural Philosophy: Dual-Engine Design
 
-GenBridge is designed with a clean SQL abstraction:
-1. **Development & Demo (SQLite)**: Runs locally without installing heavy database servers. The file `database/genbridge.sqlite` is automatically created, migrated, and seeded with demo data on the first run.
+PitchFund is designed with a clean SQL abstraction:
+1. **Development & Demo (SQLite)**: Runs locally without installing heavy database servers. The file `database/pitchfund.sqlite` is automatically created, migrated, and seeded with demo data on the first run.
 2. **Production & Enterprise (MySQL 5.7+ / 8.0+ / MariaDB)**: Uses standard relational tables with Foreign Key constraints, InnoDB ACID transactions, and UTF-8 multi-byte encoding (`utf8mb4`).
 
 Both engines share the exact same entity model, column types, and relational constraints.
@@ -177,9 +177,9 @@ CREATE TABLE platform_settings (
 2. Open the **XAMPP Control Panel** and click **Start** next to **MySQL**.
 3. Open your browser and navigate to `http://localhost/phpmyadmin`.
 4. Click the **Import** tab.
-5. Click **Choose File** and select `database/schema.mysql.sql` from the GenBridge workspace.
+5. Click **Choose File** and select `database/schema.mysql.sql` from the PitchFund workspace.
 6. Click **Go** at the bottom.
-7. Your `genbridge_db` database is now created and seeded!
+7. Your `pitchfund_db` database is now created and seeded!
 
 ### Option B: Local Setup with MySQL Command Line / Workbench
 Open your terminal (PowerShell or Bash) and execute:
@@ -198,15 +198,15 @@ mysql -u root -p < database/schema.mysql.sql
 ### Option C: Running MySQL with Docker
 You can spin up an isolated MySQL 8 instance with a single command:
 ```bash
-docker run --name genbridge-mysql \
+docker run --name pitchfund-mysql \
   -e MYSQL_ROOT_PASSWORD=secret \
-  -e MYSQL_DATABASE=genbridge_db \
+  -e MYSQL_DATABASE=pitchfund_db \
   -p 3306:3306 \
   -d mysql:8.0
 ```
 Then import the schema:
 ```bash
-docker exec -i genbridge-mysql mysql -uroot -psecret genbridge_db < database/schema.mysql.sql
+docker exec -i pitchfund-mysql mysql -uroot -psecret pitchfund_db < database/schema.mysql.sql
 ```
 
 ### Option D: Free Cloud MySQL (Railway / Aiven / PlanetScale)
@@ -233,7 +233,7 @@ MYSQL_HOST=localhost
 MYSQL_PORT=3306
 MYSQL_USER=root
 MYSQL_PASSWORD=your_password
-MYSQL_DATABASE=genbridge_db
+MYSQL_DATABASE=pitchfund_db
 ```
 
 ### MySQL Connection Snippet (`database/mysql-connection.js`)
@@ -245,7 +245,7 @@ const pool = mysql.createPool({
   port: parseInt(process.env.MYSQL_PORT || '3306', 10),
   user: process.env.MYSQL_USER || 'root',
   password: process.env.MYSQL_PASSWORD || '',
-  database: process.env.MYSQL_DATABASE || 'genbridge_db',
+  database: process.env.MYSQL_DATABASE || 'pitchfund_db',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0

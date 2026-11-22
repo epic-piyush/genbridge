@@ -1,17 +1,17 @@
-# 🚀 GenBridge: GitHub & Vercel Deployment Guide
+# 🚀 PitchFund: GitHub & Vercel Deployment Guide
 
-This guide walks you step-by-step through publishing your **GenBridge** repository to **GitHub** and deploying it live on **Vercel** with global CDN distribution and serverless API execution.
+This guide walks you step-by-step through publishing your **PitchFund** repository to **GitHub** and deploying it live on **Vercel** with global CDN distribution and serverless API execution.
 
 ---
 
 ## 📋 Architecture Overview
 
-GenBridge is architected to be 100% cloud-native and serverless-ready:
+PitchFund is architected to be 100% cloud-native and serverless-ready:
 - **Frontend**: Served directly from Vercel's global Edge CDN via `public/` directory with automatic asset caching.
 - **Backend API**: Executes on-demand in Vercel Serverless Functions (`api/index.js`), using Node.js 22 built-in modules (`node:crypto`, `node:sqlite`).
 - **Database**: 
-  - **On Vercel (Serverless)**: Automatically boots and writes to `/tmp/genbridge.sqlite` with instant table creation and pre-seeded demo data (Admin, Creator, Backer, active campaigns).
-  - **On Local / VPS**: Persists directly in `database/genbridge.sqlite`.
+  - **On Vercel (Serverless)**: Automatically boots and writes to `/tmp/pitchfund.sqlite` with instant table creation and pre-seeded demo data (Admin, Creator, Backer, active campaigns).
+  - **On Local / VPS**: Persists directly in `database/pitchfund.sqlite`.
   - **For Cloud Production**: Ready for MySQL / MariaDB (Aiven, PlanetScale, Railway) using [schema.mysql.sql](file:///c:/Users/PIYUSH%20PRATAP%20SINGH/Documents/GenBridge/database/schema.mysql.sql).
 
 ---
@@ -28,12 +28,12 @@ GenBridge is architected to be 100% cloud-native and serverless-ready:
 2. **Commit all project files**:
    ```bash
    git add .
-   git commit -m "feat: complete GenBridge platform ready for GitHub and Vercel"
+   git commit -m "feat: PitchFund platform ready for GitHub and Vercel"
    ```
 
 3. **Create a new repository on GitHub**:
    - Go to [https://github.com/new](https://github.com/new).
-   - Enter Repository name: `GenBridge` (or your preferred name).
+   - Enter Repository name: `PitchFund` (or your preferred name).
    - Choose **Public** or **Private**.
    - **Do NOT** initialize with a README, .gitignore, or license (we already have them).
    - Click **Create repository**.
@@ -41,7 +41,7 @@ GenBridge is architected to be 100% cloud-native and serverless-ready:
 4. **Link and push to GitHub**:
    Replace `YOUR_GITHUB_USERNAME` with your actual GitHub username:
    ```bash
-   git remote add origin https://github.com/YOUR_GITHUB_USERNAME/GenBridge.git
+   git remote add origin https://github.com/YOUR_GITHUB_USERNAME/PitchFund.git
    git branch -M main
    git push -u origin main
    ```
@@ -57,10 +57,10 @@ GenBridge is architected to be 100% cloud-native and serverless-ready:
 
 2. **Import your GitHub Repository**:
    - On your Vercel Dashboard, click **"Add New..."** → **"Project"**.
-   - Find your `GenBridge` repository in the list and click **"Import"**.
+   - Find your `PitchFund` repository in the list and click **"Import"**.
 
 3. **Configure Project Settings**:
-   - **Project Name**: `genbridge` (or custom name).
+   - **Project Name**: `pitchfund` (or custom name).
    - **Framework Preset**: Leave as **Other** (Vercel automatically detects `vercel.json`).
    - **Root Directory**: `./` (default).
    - **Build and Output Settings**:
@@ -76,7 +76,7 @@ GenBridge is architected to be 100% cloud-native and serverless-ready:
 
 5. **Click "Deploy"**:
    - Vercel will install, verify routes, build functions, and deploy your site in ~30 seconds.
-   - You will receive a live URL: `https://genbridge-xxxxxx.vercel.app`!
+   - You will receive a live URL: `https://pitchfund-xxxxxx.vercel.app`!
 
 ---
 
@@ -96,7 +96,7 @@ Follow the prompts:
 - *Set up and deploy?* → `y`
 - *Which scope?* → Select your personal account
 - *Link to existing project?* → `n`
-- *What's your project's name?* → `genbridge`
+- *What's your project's name?* → `pitchfund`
 - *In which directory is your code located?* → `./`
 
 ---
@@ -108,7 +108,7 @@ Once deployed, visit your Vercel URL:
 2. **API Health Check**: `https://your-project.vercel.app/api/health`
    - Expected response: `{"status":"healthy","timestamp":"..."}`
 3. **API Platform Settings**: `https://your-project.vercel.app/api/settings`
-   - Expected response: JSON containing `platform_name: "GenBridge"`, `platform_commission: "5"`, etc.
+   - Expected response: JSON containing `platform_name: "PitchFund"`, `platform_commission: "5"`, etc.
 4. **Discover Page**: `https://your-project.vercel.app/#/discover`
 5. **Admin Governance**: `https://your-project.vercel.app/#/admin`
 
@@ -120,7 +120,7 @@ The system initializes with these ready-to-use accounts on first launch:
 
 | Role | Email | Password | Access Rights |
 |---|---|---|---|
-| **Admin** | `admin@genbridge.org` | `admin123` | Full governance, edit settings, approve campaigns |
+| **Admin** | `admin@pitchfund.org` | `admin123` | Full governance, edit settings, approve campaigns |
 | **Promoter (Creator)** | `alex@creator.com` | `promoter123` | Creator Studio, post pitches, update milestones |
 | **Investor (User)** | `robert@investor.com` | `user123` | Back ideas, track milestone deliveries |
 
@@ -129,7 +129,7 @@ The system initializes with these ready-to-use accounts on first launch:
 ## 📁 Repository Structure for Vercel
 
 ```text
-GenBridge/
+PitchFund/
 ├── .github/
 │   └── workflows/
 │       └── ci.yml            # Automated GitHub Actions test on push
@@ -140,7 +140,7 @@ GenBridge/
 │   └── schema.mysql.sql      # Production MySQL DDL schema
 ├── public/
 │   ├── assets/
-│   │   └── GenBridge.jpg     # Platform logo & favicon
+│   │   └── pitchfund.jpg     # Platform logo & favicon
 │   ├── css/
 │   │   └── styles.css        # Minimalist Orange & Blue light theme styles
 │   ├── js/

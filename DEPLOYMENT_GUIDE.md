@@ -1,6 +1,6 @@
-# 🚀 GenBridge Production Deployment Guide
+# 🚀 PitchFund Production Deployment Guide
 
-This guide walks you through deploying **GenBridge** to the web so anyone can test and use it online.
+This guide walks you through deploying **PitchFund** to the web so anyone can test and use it online.
 
 ---
 
@@ -19,20 +19,20 @@ This guide walks you through deploying **GenBridge** to the web so anyone can te
 Render provides free hosting for Node.js web services with automated HTTPS.
 
 ### Steps:
-1. Push your GenBridge project to **GitHub** or **GitLab**:
+1. Push your PitchFund project to **GitHub** or **GitLab**:
    ```bash
    git init
    git add .
-   git commit -m "Initial commit of GenBridge"
+   git commit -m "Initial commit of PitchFund"
    git branch -M main
-   git remote add origin https://github.com/YOUR_USERNAME/GenBridge.git
+   git remote add origin https://github.com/YOUR_USERNAME/PitchFund.git
    git push -u origin main
    ```
 2. Log in to [dashboard.render.com](https://dashboard.render.com).
 3. Click **New +** $\rightarrow$ **Web Service**.
-4. Connect your **GenBridge** GitHub repository.
+4. Connect your **PitchFund** GitHub repository.
 5. Configure the service settings:
-   - **Name**: `genbridge-app`
+   - **Name**: `pitchfund-app`
    - **Environment**: `Node`
    - **Build Command**: `npm install` (or leave empty, as standard library is zero-dep)
    - **Start Command**: `node server.js`
@@ -42,13 +42,13 @@ Render provides free hosting for Node.js web services with automated HTTPS.
    - `JWT_SECRET`: `your_random_64_char_secure_hex_key`
 7. Click **Create Web Service**.
 8. In 2 minutes, your web app will be live at:
-   `https://genbridge-app.onrender.com`
+   `https://pitchfund-app.onrender.com`
 
 ---
 
 ## Option 2: Production VPS Deployment (Ubuntu 22.04 / 24.04 LTS)
 
-For full ownership with a custom domain (e.g. `https://genbridge.org`), follow these steps on any VPS (DigitalOcean Droplet, Hetzner, AWS EC2, or Linode):
+For full ownership with a custom domain (e.g. `https://pitchfund.org`), follow these steps on any VPS (DigitalOcean Droplet, Hetzner, AWS EC2, or Linode):
 
 ### 1. Connect & Update Server
 ```bash
@@ -66,15 +66,15 @@ node -v # Should display v22.x or v24.x
 ### 3. Clone Repository
 ```bash
 cd /var/www
-git clone https://github.com/YOUR_USERNAME/GenBridge.git
-cd GenBridge
+git clone https://github.com/YOUR_USERNAME/PitchFund.git
+cd PitchFund
 ```
 
 ### 4. Install PM2 (Process Manager)
 PM2 keeps your server running forever, restarts on system reboots, and manages logs:
 ```bash
 npm install -g pm2
-pm2 start server.js --name "genbridge"
+pm2 start server.js --name "pitchfund"
 pm2 save
 pm2 startup
 ```
@@ -82,7 +82,7 @@ pm2 startup
 ### 5. Configure Nginx Reverse Proxy
 Create a new server block:
 ```bash
-nano /etc/nginx/sites-available/genbridge
+nano /etc/nginx/sites-available/pitchfund
 ```
 
 Paste the following configuration:
@@ -109,7 +109,7 @@ server {
 
 Enable the configuration and restart Nginx:
 ```bash
-ln -s /etc/nginx/sites-available/genbridge /etc/nginx/sites-enabled/
+ln -s /etc/nginx/sites-available/pitchfund /etc/nginx/sites-enabled/
 nginx -t
 systemctl restart nginx
 ```
@@ -150,7 +150,7 @@ version: '3.8'
 services:
   web:
     build: .
-    container_name: genbridge_web
+    container_name: pitchfund_web
     restart: always
     ports:
       - "3000:3000"
@@ -170,11 +170,11 @@ docker compose up -d
 
 ## 4. Production Checklist
 
-- [x] **Branding Assets**: Verify `GenBridge.jpg` is served at `/assets/GenBridge.jpg`.
+- [x] **Branding Assets**: Verify `pitchfund.jpg` is served at `/assets/pitchfund.jpg`.
 - [x] **Change Default Admin Password**: Go to the Admin Panel $\rightarrow$ Users $\rightarrow$ Edit Admin credentials.
 - [x] **JWT Secret Key**: Set a custom `JWT_SECRET` environment variable in production.
-- [x] **Database Backup**: Set up a daily cron job to backup `genbridge.sqlite` or MySQL dumps:
+- [x] **Database Backup**: Set up a daily cron job to backup `pitchfund.sqlite` or MySQL dumps:
   ```bash
-  0 2 * * * cp /var/www/GenBridge/database/genbridge.sqlite /backups/gb_$(date +\%F).sqlite
+  0 2 * * * cp /var/www/PitchFund/database/pitchfund.sqlite /backups/pf_$(date +\%F).sqlite
   ```
 - [x] **Platform Settings**: Set your live commission percentage and banner alert from the Private Admin Panel (`/#/admin`).

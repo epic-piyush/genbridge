@@ -18,12 +18,16 @@
       "destination": "/public/js/$1"
     },
     {
+      "source": "/pitchfund.jpg",
+      "destination": "/public/pitchfund.jpg"
+    },
+    {
       "source": "/GenBridge.jpg",
-      "destination": "/public/GenBridge.jpg"
+      "destination": "/public/pitchfund.jpg"
     },
     {
       "source": "/favicon.ico",
-      "destination": "/public/assets/GenBridge.jpg"
+      "destination": "/public/assets/pitchfund.jpg"
     },
     {
       "source": "/(.*)",

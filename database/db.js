@@ -18,15 +18,26 @@ let DB_PATH;
 if (process.env.DATABASE_PATH) {
   DB_PATH = process.env.DATABASE_PATH;
 } else if (isServerless) {
-  DB_PATH = path.join(os.tmpdir(), 'genbridge.sqlite');
-  const sourceDb = path.join(__dirname, 'genbridge.sqlite');
-  if (fs.existsSync(sourceDb) && !fs.existsSync(DB_PATH)) {
+  DB_PATH = path.join(os.tmpdir(), 'pitchfund.sqlite');
+  const sourceDb = path.join(__dirname, 'pitchfund.sqlite');
+  const legacyDb = path.join(__dirname, 'genbridge.sqlite');
+  if (!fs.existsSync(DB_PATH)) {
     try {
-      fs.copyFileSync(sourceDb, DB_PATH);
+      if (fs.existsSync(sourceDb)) {
+        fs.copyFileSync(sourceDb, DB_PATH);
+      } else if (fs.existsSync(legacyDb)) {
+        fs.copyFileSync(legacyDb, DB_PATH);
+      }
     } catch (_) {}
   }
 } else {
-  DB_PATH = path.join(__dirname, 'genbridge.sqlite');
+  DB_PATH = path.join(__dirname, 'pitchfund.sqlite');
+  const legacyDb = path.join(__dirname, 'genbridge.sqlite');
+  if (!fs.existsSync(DB_PATH) && fs.existsSync(legacyDb)) {
+    try {
+      fs.copyFileSync(legacyDb, DB_PATH);
+    } catch (_) {}
+  }
 }
 
 const db = new DatabaseSync(DB_PATH);
@@ -122,12 +133,18 @@ function initDatabase() {
   const existingSettings = db.prepare('SELECT COUNT(*) as count FROM platform_settings').get();
   if (!existingSettings || existingSettings.count === 0) {
     const insertSetting = db.prepare('INSERT INTO platform_settings (setting_key, setting_value, description) VALUES (?, ?, ?)');
-    insertSetting.run('platform_name', 'GenBridge', 'Official branding title for the platform');
+    insertSetting.run('platform_name', 'PitchFund', 'Official branding title for the platform');
     insertSetting.run('platform_commission_percent', '5.0', 'Platform fee percentage charged on micro-investments');
     insertSetting.run('min_investment_global', '10.00', 'Minimum allowable micro-investment across any campaign');
     insertSetting.run('currency_symbol', '$', 'Currency symbol used throughout the interface');
     insertSetting.run('allow_new_registrations', 'true', 'System flag to enable or pause public signups');
-    insertSetting.run('announcement_banner', '🚀 Welcome to GenBridge: Connecting experienced capital & wisdom with the next generation of creators!', 'Top banner alert message');
+    insertSetting.run('announcement_banner', '🚀 Welcome to PitchFund: Connecting experienced capital & wisdom with the next generation of creators!', 'Top banner alert message');
+  } else {
+    // Migrate legacy settings to PitchFund
+    try {
+      db.prepare("UPDATE platform_settings SET setting_value = 'PitchFund' WHERE setting_key = 'platform_name' AND setting_value = 'GenBridge'").run();
+      db.prepare("UPDATE platform_settings SET setting_value = '🚀 Welcome to PitchFund: Connecting experienced capital & wisdom with the next generation of creators!' WHERE setting_key = 'announcement_banner' AND setting_value LIKE '%GenBridge%'").run();
+    } catch (_) {}
   }
 
   // Seed default users if empty
@@ -144,10 +161,10 @@ function initDatabase() {
 
     insertUser.run(
       'System Administrator',
-      'admin@genbridge.org',
+      'admin@pitchfund.org',
       defaultPassword,
       'admin',
-      'Superadmin overseeing GenBridge ecosystem governance, compliance, and platform alterations.',
+      'Superadmin overseeing PitchFund ecosystem governance, compliance, and platform alterations.',
       10000.00,
       'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'
     );
@@ -356,6 +373,26 @@ function initDatabase() {
     insertMilestone.run(camp5Info.lastInsertRowid, 'Solar Micro-Computer Kits Procured', 'Batch of 20 Raspberry Pi kits with solar panels', 50, 'completed', null, 'Government school authorization receipt #MP-EDU-981.');
     insertMilestone.run(camp5Info.lastInsertRowid, 'Classroom Deployment & Student Training', 'Installed across 20 remote schools in MP', 100, 'completed', null, 'Impact audit confirmed: 850 students now learning programming offline.');
   }
+
+  // Ensure admin@pitchfund.org is present in users
+  try {
+    const adminCheck = db.prepare("SELECT * FROM users WHERE email = 'admin@pitchfund.org'").get();
+    if (!adminCheck) {
+      const defaultPassword = hashPassword('admin123');
+      db.prepare(`
+        INSERT OR IGNORE INTO users (name, email, password_hash, role, bio, wallet_balance, avatar)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+      `).run(
+        'System Administrator',
+        'admin@pitchfund.org',
+        defaultPassword,
+        'admin',
+        'Superadmin overseeing PitchFund ecosystem governance, compliance, and platform alterations.',
+        10000.00,
+        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'
+      );
+    }
+  } catch (_) {}
 }
 
 // Ensure database is initialized

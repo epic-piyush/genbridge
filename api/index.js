@@ -1,4 +1,4 @@
-// Vercel Serverless Function Entry Point for GenBridge API
+// Vercel Serverless Function Entry Point for PitchFund API
 const { handleRequest } = require('../server.js');
 
 module.exports = async (req, res) => {

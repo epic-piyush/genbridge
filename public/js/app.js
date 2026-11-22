@@ -1,4 +1,4 @@
-// GenBridge - Orange & Blue Minimalist Light Theme Client Application
+// PitchFund - Orange & Blue Minimalist Light Theme Client Application
 
 const state = {
   user: null,
@@ -9,7 +9,7 @@ const state = {
   searchQuery: '',
   selectedCampaign: null,
   settings: {
-    platform_name: 'GenBridge',
+    platform_name: 'PitchFund',
     currency_symbol: '$',
     platform_commission_percent: '5.0',
     min_investment_global: '10.00',
@@ -196,7 +196,7 @@ const auth = {
           Sign In
         </button>
         <button onclick="auth.openModal('signup', 'user')" class="px-4 py-2 rounded-xl text-xs font-bold bg-orange-500 hover:bg-orange-600 text-white shadow-md shadow-orange-500/25 transition">
-          Join GenBridge
+          Join PitchFund
         </button>
       `;
     }
@@ -218,7 +218,7 @@ const auth = {
     state.authMode = mode;
     const isSignup = mode === 'signup';
     document.getElementById('authSignupFields').classList.toggle('hidden', !isSignup);
-    document.getElementById('authModalTitle').innerText = isSignup ? 'Join GenBridge' : 'Sign In to GenBridge';
+    document.getElementById('authModalTitle').innerText = isSignup ? 'Join PitchFund' : 'Sign In to PitchFund';
     document.getElementById('authSubmitBtn').innerText = isSignup ? 'Create Account' : 'Sign In';
 
     const loginTab = document.getElementById('authToggleLogin');
@@ -245,7 +245,7 @@ const auth = {
         state.user = data.user;
         state.token = data.token;
         localStorage.setItem('gb_token', data.token);
-        showToast(`Welcome to GenBridge, ${data.user.name}!`);
+        showToast(`Welcome to PitchFund, ${data.user.name}!`);
       } else {
         const data = await api('/api/auth/login', {
           method: 'POST',
@@ -1298,7 +1298,7 @@ const admin = {
       const map = {};
       list.forEach(i => map[i.setting_key] = i.setting_value);
 
-      document.getElementById('cfgPlatformName').value = map['platform_name'] || 'GenBridge';
+      document.getElementById('cfgPlatformName').value = map['platform_name'] || 'PitchFund';
       document.getElementById('cfgCurrencySymbol').value = map['currency_symbol'] || '$';
       document.getElementById('cfgCommission').value = map['platform_commission_percent'] || '5.0';
       document.getElementById('cfgMinInvest').value = map['min_investment_global'] || '10.00';

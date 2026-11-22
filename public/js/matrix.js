@@ -1,4 +1,4 @@
-// GenBridge - Matrix Digital Rain Engine (Light Theme — Orange & Blue)
+// PitchFund - Matrix Digital Rain Engine (Light Theme — Orange & Blue)
 
 class MatrixRain {
   constructor(canvasId) {
@@ -6,7 +6,7 @@ class MatrixRain {
     if (!this.canvas) return;
 
     this.ctx = this.canvas.getContext('2d');
-    this.characters = '01$€£¥₿%&<>{}+-=*#@!~/\\▲▼◆0x8F9E2A_GENBRIDGE_4K_AI_TECH_STUDIO_';
+    this.characters = '01$€£¥₿%&<>{}+-=*#@!~/\\▲▼◆0x8F9E2A_PITCHFUND_4K_AI_TECH_STUDIO_';
     this.fontSize = 14;
     this.columns = 0;
     this.drops = [];

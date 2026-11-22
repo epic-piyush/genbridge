@@ -5,7 +5,7 @@ const crypto = require('node:crypto');
 const db = require('./database/db.js');
 
 const PORT = process.env.PORT || 3000;
-const SECRET_KEY = process.env.JWT_SECRET || 'genbridge_super_secure_secret_token_2026';
+const SECRET_KEY = process.env.JWT_SECRET || 'pitchfund_super_secure_secret_token_2026';
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
 // Simple secure HMAC token generator & verifier
@@ -111,9 +111,9 @@ const MIME_TYPES = {
 function serveStaticFile(req, res, pathname) {
   let relativePath = pathname === '/' ? '/index.html' : pathname;
 
-  // Direct access to GenBridge.jpg from root
-  if (relativePath === '/GenBridge.jpg') {
-    const rootLogo = path.join(__dirname, 'GenBridge.jpg');
+  // Direct access to pitchfund.jpg (and GenBridge.jpg legacy alias) from root
+  if (relativePath === '/pitchfund.jpg' || relativePath === '/GenBridge.jpg') {
+    const rootLogo = path.join(__dirname, 'pitchfund.jpg');
     if (fs.existsSync(rootLogo)) {
       res.writeHead(200, { 'Content-Type': 'image/jpeg' });
       fs.createReadStream(rootLogo).pipe(res);
@@ -491,11 +491,11 @@ const server = http.createServer(handleRequest);
 if (require.main === module) {
   server.listen(PORT, () => {
     console.log(`=======================================================`);
-    console.log(`🚀 GenBridge Server running at http://localhost:${PORT}`);
+    console.log(`🚀 PitchFund Server running at http://localhost:${PORT}`);
     console.log(`📁 Serving frontend from ${PUBLIC_DIR}`);
     console.log(`🛡️  Admin Panel URL: http://localhost:${PORT}/#/admin`);
     console.log(`👤 Demo Accounts:`);
-    console.log(`   - Admin:    admin@genbridge.org  (Pass: admin123)`);
+    console.log(`   - Admin:    admin@pitchfund.org  (Pass: admin123)`);
     console.log(`   - Promoter: alex@creator.com    (Pass: promoter123)`);
     console.log(`   - Investor: robert@investor.com (Pass: user123)`);
     console.log(`=======================================================`);
