@@ -11,7 +11,14 @@ class MatrixRain {
     this.columns = 0;
     this.drops = [];
     this.speed = 33; // ~30 FPS
-    this.opacity = parseFloat(localStorage.getItem('gb_matrix_opacity') || '0.08');
+    // Default matrix opacity set to 0.22 (22%)
+    const savedOpacity = localStorage.getItem('gb_matrix_opacity');
+    if (!savedOpacity || savedOpacity === '0.08' || savedOpacity === '0.04' || savedOpacity === '0.14') {
+      this.opacity = 0.22;
+      localStorage.setItem('gb_matrix_opacity', '0.22');
+    } else {
+      this.opacity = parseFloat(savedOpacity);
+    }
     this.enabled = localStorage.getItem('gb_matrix_enabled') !== 'false';
     this.intervalId = null;
 
@@ -62,7 +69,7 @@ class MatrixRain {
   }
 
   cycleOpacity() {
-    const levels = [0.04, 0.08, 0.14, 0.22];
+    const levels = [0.10, 0.22, 0.35, 0.50];
     const currentIndex = levels.indexOf(this.opacity);
     this.opacity = levels[(currentIndex + 1) % levels.length];
     localStorage.setItem('gb_matrix_opacity', this.opacity);
